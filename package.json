@@ -1,0 +1,41 @@
+{
+  "name": "AI4NonSTEM",
+  "version": "1.0.0",
+  "main": "index.js",
+  "homepage": "https://flame-cai.github.io/AI4NonSTEM",
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b main -d build",
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flame-cai/AI4NonSTEM.git"
+  },
+  "bugs": {
+    "url": "https://github.com/flame-cai/AI4NonSTEM/issues"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-scripts": "^5.0.1"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0",
+    "@babel/plugin-transform-private-property-in-object":"^7.25.9",
+    "@babel/plugin-proposal-private-property-in-object":"^7.21.11"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
