@@ -46,6 +46,27 @@ const TuringChat = (prop) => {
     }
   };
 
+  const preCheck = async () => {
+    try {
+      const response = await fetch("https://asia-south1-ppt-tts.cloudfunctions.net/ai4non-stem/turing_check", {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${prop.token}`
+        }
+      });
+      const data = await response.json();
+      if (response.ok) {
+        return data;
+      } else {
+        document.getElementById("main").innerHTML = `<h1 style="color: red;">${data.error}</h1>`;
+        return false;
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      return false;
+    }
+  };  
+
   const submitExam = () => {   
     fetch("https://asia-south1-ppt-tts.cloudfunctions.net/ai4non-stem/turing_submit",
       {
@@ -191,16 +212,28 @@ const TuringChat = (prop) => {
           />
         )}
         <div className="submit-wrapper">
-          <button className="submit" type="submit" onClick={() => {
+          <button className="submit" type="submit" onClick={async () => {
             if (messages.length < 2) {
               alert("No Chat / Response to Submit.");
             } else {
-              const userConfirmed = window.confirm(
-                "Are you sure you want to submit? \n\n" +
-                "By submitting, you acknowledge that you will not have the opportunity to make changes or resubmit."
-              );
-              if (userConfirmed) {
-                submitExam();
+              let data = await preCheck();
+              if (data) {
+                if (data.status === 1) {
+                  const userConfirmed = window.confirm(
+                    "Are you sure you want to submit? \n\n" +
+                    "By submitting, you acknowledge that you will not have the opportunity to make changes or resubmit."
+                  );
+                  if (userConfirmed) {
+                    submitExam();
+                  }
+                } else {
+                  alert(
+                    "Current AI output still contains a significant amount of factual errors, so it is not yet ready for review. \n\n" +
+                    "Please refine the AI response further using your prompts and try again."
+                  );
+                }
+              } else {
+                return;
               }
             }
           }}>Submit</button>
